@@ -1,6 +1,6 @@
 using System;
 
-namespace HomeBudget.Models
+namespace HomeBudget.ViewModels
 {
     public class ErrorViewModel
     {
