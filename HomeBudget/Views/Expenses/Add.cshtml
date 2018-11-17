@@ -1,0 +1,124 @@
+﻿@model HomeBudget.ViewModels.Expenses.AddViewModel
+
+@{
+    ViewData["Title"] = "Dodaj wydatek";
+}
+
+<h2>Dodaj wydatek</h2>
+<hr />
+
+<form asp-controller="Expenses" asp-action="Add" method="post">
+    <div class="form-group row">
+        <label asp-for="Date" class="col-sm-2 col-form-label text-right"></label>
+        <div class="col-sm-4">
+            <input asp-for="Date" class="form-control" type="date">
+            <span asp-validation-for="Date" class="form-error-message"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ProductName" class="col-sm-2 col-form-label text-right"></label>
+        <div class="col-sm-4">
+            <input asp-for="ProductName" class="form-control">
+            <span asp-validation-for="ProductName" class="form-error-message"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Price" class="col-sm-2 col-form-label text-right"></label>
+        <div class="col-sm-4">
+            <input asp-for="Price" class="form-control">
+            <span asp-validation-for="Price" class="form-error-message"></span>
+        </div>
+        <div class="col-sm-auto col-form-label">
+            <span>zł</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Quantity" class="col-sm-2 col-form-label text-right"></label>
+        <div class="col-sm-4">
+            <input asp-for="Quantity" class="form-control">
+            <span asp-validation-for="Quantity" class="form-error-message"></span>
+        </div>
+        <div>
+            <select asp-for="SelectedUnitId" asp-items="@Model.UnitList" class="custom-select"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <span class="col-sm-2"></span>
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<div class="ui-widget">
+    <label for="tags">Tags: </label>
+    <input id="tags">
+</div>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+     .ui-autocomplete {
+         max-height: 100px;
+         overflow-y: auto;
+         /* prevent horizontal scrollbar */
+         overflow-x: hidden;
+     }
+     /* IE 6 doesn't support max-height
+    * we use height instead, but this forces the menu to always be this tall
+    */
+     * html .ui-autocomplete {
+         height: 100px;
+     }
+</style>
+<script>
+    //$(function () {
+    //    var availableTags = [
+    //        "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
+    //        "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh",
+    //        "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia",
+    //        "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burma",
+    //        "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Central African Republic", "Chad",
+    //        "Chile", "China", "Colombia", "Comoros", "Congo, Democratic Republic", "Congo, Republic of the",
+    //        "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti",
+    //        "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador",
+    //        "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+    //        "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "Guinea",
+    //        "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India",
+    //        "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan",
+    //        "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South", "Kuwait", "Kyrgyzstan", "Laos",
+    //        "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+    //        "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands",
+    //        "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Mongolia", "Morocco", "Monaco",
+    //        "Mozambique", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger",
+    //        "Nigeria", "Norway", "Oman", "Pakistan", "Panama", "Papua New Guinea", "Paraguay", "Peru",
+    //        "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Samoa", "San Marino",
+    //        "Sao Tome", "Saudi Arabia", "Senegal", "Serbia and Montenegro", "Seychelles", "Sierra Leone",
+    //        "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "Spain",
+    //        "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan",
+    //        "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey",
+    //        "Turkmenistan", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States",
+    //        "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+    //    ];
+    //    //$("#tags").autocomplete({
+    //    //    source: availableTags
+    //    //});
+    //});
+
+    $("#tags").autocomplete({
+        source: function (request, response) {
+            jQuery.get("GetProductNames", {
+                query: request.term
+            }, function (data) {
+                // assuming data is a JavaScript array such as
+                // ["one@abc.de", "onf@abc.de","ong@abc.de"]
+                // and not a string
+                response(data);
+            });
+        }
+    });
+</script>

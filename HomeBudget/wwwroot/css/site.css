@@ -33,3 +33,9 @@
         display: none;
     }
 }
+
+.form-error-message {
+    color: red;
+    font-style: italic;
+    font-size: small;
+}
