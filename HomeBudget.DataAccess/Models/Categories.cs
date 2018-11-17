@@ -7,7 +7,7 @@ namespace HomeBudget.DataAccess.Models
     {
         public Categories()
         {
-            Products = new HashSet<Products>();
+            Expenses = new HashSet<Expenses>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace HomeBudget.DataAccess.Models
         public string Name { get; set; }
 
         public Users User { get; set; }
-        public ICollection<Products> Products { get; set; }
+        public ICollection<Expenses> Expenses { get; set; }
     }
 }

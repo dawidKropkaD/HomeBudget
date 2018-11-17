@@ -7,11 +7,14 @@ namespace HomeBudget.DataAccess.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int ProductId { get; set; }
+        public int CategoryId { get; set; }
+        public int? UnitId { get; set; }
+        public string Name { get; set; }
         public decimal TotalPrice { get; set; }
         public double? Quantity { get; set; }
 
-        public Products Product { get; set; }
+        public Categories Category { get; set; }
+        public Units Unit { get; set; }
         public Users User { get; set; }
     }
 }

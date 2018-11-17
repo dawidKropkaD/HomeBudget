@@ -126,7 +126,6 @@
     <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\HomeBudgetContext.cs" />
-    <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Units.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
