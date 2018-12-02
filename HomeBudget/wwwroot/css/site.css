@@ -39,3 +39,13 @@
     font-style: italic;
     font-size: small;
 }
+
+.col-md-text-right{
+    text-align: right;
+}
+
+@media screen and (max-width: 767px) {
+    .col-md-text-right {
+        text-align: initial;
+    }
+}
