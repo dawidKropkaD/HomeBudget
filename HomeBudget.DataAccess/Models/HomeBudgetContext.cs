@@ -45,11 +45,9 @@ namespace HomeBudget.DataAccess.Models
 
             modelBuilder.Entity<Expenses>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Date).HasColumnType("smalldatetime");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Expenses)
@@ -82,7 +80,7 @@ namespace HomeBudget.DataAccess.Models
 
                 entity.Property(e => e.Login)
                     .IsRequired()
-                    .HasMaxLength(10);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Password)
                     .IsRequired()

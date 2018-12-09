@@ -31,11 +31,12 @@ namespace HomeBudget.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            }            
+            }
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, vm.Login)
+                new Claim(ClaimTypes.Name, vm.Login),
+                new Claim("Id", new UserInfo(vm.Login).User.Id.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

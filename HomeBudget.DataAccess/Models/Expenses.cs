@@ -12,6 +12,7 @@ namespace HomeBudget.DataAccess.Models
         public string Name { get; set; }
         public decimal TotalPrice { get; set; }
         public double? Quantity { get; set; }
+        public DateTime Date { get; set; }
 
         public Categories Category { get; set; }
         public Units Unit { get; set; }

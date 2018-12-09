@@ -42,9 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddingExpenseService.cs" />
     <Compile Include="Authentication.cs" />
-    <Compile Include="ICredentialData.cs" />
+    <Compile Include="CategoryMutator.cs" />
+    <Compile Include="CentralTendencyExpense.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Searcher.cs" />
     <Compile Include="UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>

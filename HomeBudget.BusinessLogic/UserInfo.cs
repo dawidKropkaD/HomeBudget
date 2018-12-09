@@ -9,6 +9,14 @@ namespace HomeBudget.BusinessLogic
 {
     public class UserInfo
     {
+        public UserInfo(string login)
+        {
+            User = new HomeBudgetContext().Users.First(x => x.Login == login);
+        }
+
+        public Users User { get; private set; }
+
+
         public static bool Exist(string login)
         {
             HomeBudgetContext context = new HomeBudgetContext();
