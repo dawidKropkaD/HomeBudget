@@ -1,0 +1,10 @@
+﻿@model HomeBudget.ViewModels.ExpensesStatistics.MainCategoriesViewModel
+@{
+    ViewData["Title"] = "Statystyki wydatków dla kategorii głównych";
+}
+
+<h2>Statystyki wydatków dla kategorii głównych</h2>
+<hr />
+<p>Tutaj będzie można wybrać zakres dat dla wydatków, których statystyki będą obejmować. Będą też checkboxy (skróty) ostatni miesiąc, rok oraz poprzeni miesiąc, rok</p>
+
+@Html.Partial("_PieCharts", Model.PieCharts)

@@ -49,3 +49,26 @@
         text-align: initial;
     }
 }
+
+/*Pie chart*/
+.pie-chart {
+    margin-bottom: 25px;
+}
+.pie-chart .in {
+    background-color: aliceblue !important;
+}
+.pie-chart .in .title {
+    text-align: center;
+}
+.pie-chart .details {
+    position: absolute;
+    right: 20px;
+    top: 5px;
+}
+.pie-chart .legend .square:before {
+    content: "■";
+    display: inline-block;
+}
+.pie-chart .legend .description {
+    margin-right: 10px;
+}

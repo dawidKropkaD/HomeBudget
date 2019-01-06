@@ -45,7 +45,12 @@
     <Compile Include="AddingExpenseService.cs" />
     <Compile Include="Authentication.cs" />
     <Compile Include="CategoryMutator.cs" />
+    <Compile Include="CategoryTree.cs" />
+    <Compile Include="CategoryTreeNode.cs" />
     <Compile Include="CentralTendencyExpense.cs" />
+    <Compile Include="ExpensesPieChart.cs" />
+    <Compile Include="PieChart.cs" />
+    <Compile Include="ExpensesStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Searcher.cs" />
     <Compile Include="UserInfo.cs" />

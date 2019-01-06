@@ -1,0 +1,83 @@
+﻿@model List<HomeBudget.ViewModels.ExpensesStatistics.ExpensesPieChartViewModel>
+
+@for (int i = 0; i < Math.Floor(Model.Count() / 2.0); i++)
+{
+    <div class="row">
+        <div class="col-sm-6 pie-chart">
+            <div class="in shadow-lg p-3 mb-5 bg-white rounded">
+                <h4 class="title">@Model[i * 2].Title</h4>
+                <span class="details">@Html.Raw(Model[i * 2].ShowDetailsHtml)</span>
+                <canvas id="pie-chart-@(i * 2)"></canvas>
+                <div class="legend" id="pie-chart-@(i * 2)-legend"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 pie-chart">
+            <div class="in shadow-lg p-3 mb-5 bg-white rounded">
+                <h4 class="title">@Model[i * 2 + 1].Title</h4>
+                <span class="details">@Html.Raw(Model[i * 2 + 1].ShowDetailsHtml)</span>
+                <canvas id="pie-chart-@(i * 2 + 1)"></canvas>
+                <div class="legend" id="pie-chart-@(i * 2 + 1)-legend"></div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Count() % 2 != 0)
+{
+    <div class="row">
+        <div class="col-sm-6 pie-chart">
+            <div class="in shadow-lg p-3 mb-5 bg-white rounded">
+                <h4 class="title">@Model[Model.Count() - 1].Title</h4>
+                <span class="details">@Html.Raw(Model[Model.Count() - 1].ShowDetailsHtml)</span>
+                <canvas id="pie-chart-@(Model.Count()-1)"></canvas>
+                <div class="legend" id="pie-chart-@(Model.Count()-1)-legend"></div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/lib/chart/Chart.js"></script>
+
+<script>
+    var pieCharts = @Html.Raw(Json.Serialize(Model));
+
+    for (var i = 0; i < pieCharts.length; i++)
+    {
+        var pieChartCanvasId = "pie-chart-" + i;
+        var pieChartCanvas = document.getElementById(pieChartCanvasId);
+        var chart = new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: {
+                labels: pieCharts[i].tooltipLabels,
+                datasets: [{
+                    backgroundColor: pieCharts[i].hexBgColors,
+                    data: pieCharts[i].percentages
+                }]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            return data["labels"][tooltipItem['index']]
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+        //LEGEND
+        $("#" + pieChartCanvasId + "-legend").html(getLegend(pieCharts[i].hexBgColors, pieCharts[i].legendLabels));
+    }
+
+    function getLegend(hexBgColors, labels) {
+        var text = [];
+        for (var i = 0; i < hexBgColors.length; i++) {
+            text.push('<span class="square" style="color:' + hexBgColors[i] + '"></span>');
+            text.push('<span class="description">' + labels[i] + '</span>');
+        }
+        return text.join('');
+    }
+</script>
