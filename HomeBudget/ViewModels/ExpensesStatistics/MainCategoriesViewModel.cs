@@ -22,7 +22,7 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
                     Title = item.Title,
                     HexBgColors = item.DataPoints.Select(x => x.HexBackgroundColor).ToList(),
                     ExpensesCategoryId = item.ExpensesCategoryId,
-                    ShowDetailsHtml = "<a href=\"ExpensesStatistics/Category/" + item.ExpensesCategoryId + "\"><i class=\"fas fa-chart-pie\"></i></a>"
+                    ShowDetailsHtml = "<a href=\"ExpensesStatistics/Category/" + item.ExpensesCategoryId + "\" data-toggle=\"tooltip\" title=\"Pokaż szczegółowe statystyki\"><i class=\"fas fa-chart-pie\"></i></a>"
                 });
             }
         }
