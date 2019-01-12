@@ -13,7 +13,7 @@ namespace HomeBudget.ViewModels.Expenses
     {
         [Display(Name = "Data *")]
         [Required]
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; } = new DateTime(2017, 12, 17);//  DateTime.Now;
 
         [Display(Name = "Produkt")]
         public string ProductName { get; set; }

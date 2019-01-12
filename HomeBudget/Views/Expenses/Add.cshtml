@@ -25,6 +25,9 @@
     <div class="form-group row">
         <label asp-for="SelectedCategoryId" class="col-sm-2 col-form-label text-right"></label>
         <div class="col-sm-4">
+            @{ 
+#warning kontrolka do wymiany, powinna być taka sama jak pozostałe
+            }
             <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="chosen">
                 <option value="0" disabled selected>--- Wybierz ---</option>
             </select>

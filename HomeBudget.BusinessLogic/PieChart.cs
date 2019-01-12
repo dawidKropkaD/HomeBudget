@@ -11,8 +11,6 @@ namespace HomeBudget.BusinessLogic
     {
         public PieChart(CategoryTreeNode root, List<Expenses> allExpenses)
         {
-            Title = root.Value.Name;
-
             decimal catCostSum = allExpenses.Where(x => x.CategoryId == root.Value.Id).Sum(x => x.TotalPrice);
             TryAddItemToDataPoints(catCostSum, root.Value.Name);
 
@@ -29,6 +27,7 @@ namespace HomeBudget.BusinessLogic
 
             if (DataPoints.Count() > 0)
             {
+                Title = $"{root.Value.Name} ({DataPoints.Sum(x => x.Value)} zł)";
                 DataPoints = DataPoints.OrderByDescending(x => x.Value).ToList();
                 CalculatePercentages();
                 SetBgColors();
@@ -43,17 +42,22 @@ namespace HomeBudget.BusinessLogic
         public void CalculatePercentages()
         {
             decimal costSum = DataPoints.Sum(x => x.Value);
+            //Item1 is decimal part of dataPoint percentage
+            List<Tuple<decimal, DataPoint>> dataPointsWithDecimalPartPercentages = new List<Tuple<decimal, DataPoint>>();
 
             foreach (var item in DataPoints)
             {
-                item.Percentage = (int)Math.Floor((item.Value * 100) / costSum);
+                decimal percentageDecimal = (item.Value * 100) / costSum;
+                item.Percentage = (int)Math.Floor(percentageDecimal);
+                dataPointsWithDecimalPartPercentages.Add(new Tuple<decimal, DataPoint>(percentageDecimal - item.Percentage, item));
             }
 
             int missingPercentsNumber = 100 - DataPoints.Sum(x => x.Percentage);
+            dataPointsWithDecimalPartPercentages = dataPointsWithDecimalPartPercentages.OrderByDescending(x => x.Item1).ToList();
 
             for (int i = 0; i < missingPercentsNumber; i++)
             {
-                DataPoints.OrderByDescending(x => x.Value - Math.Truncate(x.Value)).ToList()[i].Percentage += 1;
+                dataPointsWithDecimalPartPercentages[i].Item2.Percentage += 1;
             }
         }
         
