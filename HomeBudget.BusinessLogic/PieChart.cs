@@ -99,6 +99,7 @@ namespace HomeBudget.BusinessLogic
         }
 
 
+
         public class DataPoint
         {
             public DataPoint(decimal value, string name)

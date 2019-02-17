@@ -29,8 +29,14 @@
             {
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="ExpensesStatistics" asp-action="Index">Statystyki wydatków</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="ExpensesStatisticsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Statystyki wydatków
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="ExpensesStatisticsDropdown">
+                                <a class="dropdown-item" asp-controller="ExpensesStatistics" asp-action="Index">Ogólne</a>
+                                <a class="dropdown-item" asp-controller="ExpensesStatistics" asp-action="CategoryExpenses">Szczegółowe</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Expenses" asp-action="Add">Dodaj wydatek</a>

@@ -38,15 +38,5 @@ namespace HomeBudget.BusinessLogic
 
             return result;
         }
-
-        public List<PieChart> GetCategory(int categoryId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<PieChart> ProductsInCategory(int categoryId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

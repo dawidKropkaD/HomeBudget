@@ -1,0 +1,57 @@
+﻿@model HomeBudget.ViewModels.Shared.BarChartViewModel
+
+<div class="chart">
+    <div style="height: @(Model.Height)px">
+        <canvas id="barChart"></canvas>
+    </div>
+    <div class="legend" id="barChartLegend">
+        @for (int i = 0; i < Model.LegendSquaresHexColors.Count(); i++)
+        {
+            <span class="square" style="color:@Model.LegendSquaresHexColors[i]"></span>
+            <span class="description">@Model.LegendDescriptions[i]</span>
+            <br />
+        }
+    </div>
+</div>
+
+
+
+<script src="~/lib/chart/Chart.js"></script>
+
+<script>
+    var model = @Html.Raw(Json.Serialize(Model));
+
+    var canvas = document.getElementById('barChart');
+
+    var barChart = new Chart(canvas, {
+        type: model.type,
+        data: {
+            labels: model.labels,
+            datasets: [{
+                tooltips: model.tooltips,
+                data: model.values,
+                backgroundColor: model.hexBgColors
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            legend: false,
+            tooltips: {
+                callbacks: {
+                    title: function () { },
+                    label: function (tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].tooltips[tooltipItem.index]
+                    }
+                },
+                displayColors: false
+            }
+        }
+    });
+</script>

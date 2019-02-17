@@ -65,10 +65,27 @@
     right: 20px;
     top: 5px;
 }
-.pie-chart .legend .square:before {
+.pie-chart .legend .description {
+    margin-right: 10px;
+}
+
+/*Chart*/
+.chart .legend .square:before {
     content: "■";
     display: inline-block;
 }
-.pie-chart .legend .description {
-    margin-right: 10px;
+.chart .legend .description {
+    font-size: smaller;
+}
+
+/*Dropdown in navbar*/
+.navbar.bg-dark .nav-item .dropdown-menu {
+    background-color: #343a40;
+}
+.navbar.bg-dark .nav-item .dropdown-menu .dropdown-item {
+    color: rgba(255, 255, 255, 0.5);
+}
+.navbar.bg-dark .nav-item .dropdown-menu .dropdown-item:hover {
+    background-color: inherit;
+    color: rgba(255, 255, 255, 0.75);
 }

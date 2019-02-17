@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeBudget.BusinessLogic;
+using HomeBudget.BusinessLogic.Validation;
 using HomeBudget.DataAccess.Models;
 using HomeBudget.ViewModels.ExpensesStatistics;
+using HomeBudget.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeBudget.Controllers
@@ -22,9 +24,20 @@ namespace HomeBudget.Controllers
             return View(vm);
         }
 
-        public IActionResult Category(int id)
+        public IActionResult CategoryExpenses(int? id, DateRangeViewModel dateRangeVM)
         {
-            return View();
+            List<Categories> availableCategories = Categories.GetAvailableForUser(UserId);
+            CategoryValidation categoryValidation = new CategoryValidation(id);
+
+            if (!categoryValidation.UserHasAccess(UserId))
+            {
+                return View(new CategoryExpensesViewModel(availableCategories, dateRangeVM));
+            }
+
+            CategoryExpensesSummary categoryExpensesSummary = new CategoryExpensesSummary(id.Value, UserId, availableCategories, dateRangeVM.Start.Value, dateRangeVM.End.Value);
+            CategoryExpensesViewModel vm = new CategoryExpensesViewModel(categoryExpensesSummary, availableCategories, dateRangeVM);
+
+            return View(vm);
         }
     }
 }

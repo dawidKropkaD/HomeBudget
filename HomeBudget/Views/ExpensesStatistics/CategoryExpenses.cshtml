@@ -1,0 +1,44 @@
+﻿@model HomeBudget.ViewModels.ExpensesStatistics.CategoryExpensesViewModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<h2>@Model.PageTitle</h2>
+<hr />
+
+@Html.Partial("_DateRange", Model.DateRangeViewModel)
+
+<div class="form-row">
+    <div class="form-group col-auto">
+        <div class="input-group">
+            <label class="col-form-label">Wybierz kategorię:&nbsp;</label>
+            <select asp-items="@Model.SelectCategoryItems" class="form-control" id="selectCategoryDdl">
+                <option value="0" disabled selected>--- Wybierz ---</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-auto">
+        <div class="input-group">
+            <button class="btn btn-primary" onclick="showStatistics()">Pokaż statystyki</button>
+        </div>
+    </div>
+</div>
+
+<br />
+
+@if (Model.BarChartViewModel != null)
+{
+    @Html.Partial("_BarChart", Model.BarChartViewModel);
+}
+
+<script>
+    function showStatistics() {
+        var selectedCategoryId = $('#selectCategoryDdl').find(":selected").val();
+        var fromDate = $('#Start').val();
+        var toDate = $('#End').val();
+
+        window.location = '/ExpensesStatistics/CategoryExpenses/' + selectedCategoryId + '?Start=' + fromDate + '&End=' + toDate;
+    }
+</script>
