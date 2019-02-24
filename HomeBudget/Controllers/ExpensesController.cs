@@ -6,6 +6,7 @@ using HomeBudget.BusinessLogic;
 using HomeBudget.DataAccess.Models;
 using HomeBudget.ViewModels.Expenses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeBudget.Controllers
@@ -19,8 +20,8 @@ namespace HomeBudget.Controllers
         public IActionResult Add()
         {
             AddViewModel vm = new AddViewModel();
-            vm.LoadInitialData(UserId);
-            
+            vm.LoadInitialData(UserId, Request.Cookies["DateOfAddingExpense"]);
+
             return View(vm);
         }
 
@@ -29,7 +30,7 @@ namespace HomeBudget.Controllers
         {
             if (!ModelState.IsValid)
             {
-                vm.LoadInitialData(UserId);
+                vm.LoadInitialData(UserId, Request.Cookies["DateOfAddingExpense"]);
 
                 return View(vm);
             }
@@ -46,7 +47,9 @@ namespace HomeBudget.Controllers
                 Date = vm.Date
             });
 
+            Response.Cookies.Append("DateOfAddingExpense", vm.Date.ToString(), new CookieOptions() { Expires = DateTime.Now.AddDays(7) });
             TempData["SuccessMessage"] = "Wydatek został dodany";
+
             return RedirectToAction("Add");
         }
 

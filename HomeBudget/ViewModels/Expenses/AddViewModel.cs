@@ -13,7 +13,7 @@ namespace HomeBudget.ViewModels.Expenses
     {
         [Display(Name = "Data *")]
         [Required]
-        public DateTime Date { get; set; } = new DateTime(2018, 1, 21);//  DateTime.Now;
+        public DateTime Date { get; set; }
 
         [Display(Name = "Produkt")]
         public string ProductName { get; set; }
@@ -40,13 +40,16 @@ namespace HomeBudget.ViewModels.Expenses
         public SelectList Units { get; set; }
 
 
-        public void LoadInitialData(int userId)
+        public void LoadInitialData(int userId, string sDateFromCookie)
         {
             new AddingExpenseService().LoadInitialData(userId, out List<Units> unitsDto, out List<Categories> categoriesDto);
             CategoryMutator categoryMutator = new CategoryMutator(categoriesDto);
 
             Units = new SelectList(unitsDto, "Id", "Name");
             Categories = new SelectList(categoryMutator.GetWithParentNames(), "Id", "Name");
+
+            DateTime.TryParse(sDateFromCookie, out DateTime dateFromCookie);
+            Date = dateFromCookie == DateTime.MinValue ? DateTime.Now : dateFromCookie;
         }
     }
 }
