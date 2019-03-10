@@ -7,6 +7,7 @@
 <h2>Dodaj wydatek</h2>
 <hr />
 
+<div asp-validation-summary="ModelOnly" class="form-error-message"></div>
 <form asp-controller="Expenses" asp-action="Add" method="post">
     <div class="form-group row">
         <label asp-for="Date" class="col-sm-2 col-form-label text-right"></label>
@@ -106,8 +107,8 @@
     function tryAutoFill(expenseName) {
         if ($('#SelectedCategoryId').find(":selected").val() != 0
             || $('#Price').val().length != 0
-            || $('#Quantity').val() != 1
-            || $('#SelectedUnitId').find(":selected").val() != 1)
+            || $('#Quantity').val() != 0
+            || $('#SelectedUnitId').find(":selected").val() != '')
         {
             return;
         }

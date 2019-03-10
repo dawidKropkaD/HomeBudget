@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeBudget.BusinessLogic;
-using HomeBudget.BusinessLogic.Validation;
 using HomeBudget.DataAccess.Models;
 using HomeBudget.ViewModels.ExpensesStatistics;
 using HomeBudget.ViewModels.Shared;
@@ -27,9 +26,9 @@ namespace HomeBudget.Controllers
         public IActionResult CategoryExpenses(int? id, DateRangeViewModel dateRangeVM)
         {
             List<Categories> availableCategories = Categories.GetAvailableForUser(UserId);
-            CategoryValidation categoryValidation = new CategoryValidation(id);
 
-            if (!categoryValidation.UserHasAccess(UserId))
+            DbDataReadPermission readPermission = new DbDataReadPermission(UserId, id);
+            if (!readPermission.HasPermission)
             {
                 return View(new CategoryExpensesViewModel(availableCategories, dateRangeVM));
             }
