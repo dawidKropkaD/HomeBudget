@@ -7,21 +7,29 @@ namespace HomeBudget.ViewModels.Shared
 {
     public class DateRangeViewModel
     {
-        DateTime? _start, _end;
+        DateTime _start, _end;
+        DateTime minDate;
 
 
         public DateRangeViewModel()
         {
-            _start = DateTime.Now.AddMonths(-1).AddDays(1);
+            _start = DateTime.Now.AddMonths(-1);
             _end= DateTime.Now;
+
+            minDate = new DateTime(1799, 1, 1);
         }
 
 
-        public DateTime? Start
+        public DateTime Start
         {
             get
             {
-                return _start ?? new DateTime(1799, 1, 1);
+                if (_start < minDate)
+                {
+                    return minDate;
+                }
+
+                return _start;
             }
             set
             {
@@ -29,16 +37,55 @@ namespace HomeBudget.ViewModels.Shared
             }
         }
 
-        public DateTime? End
+        public DateTime End
         {
             get
             {
-                return _end ?? DateTime.MaxValue;
+                if (_end < minDate)
+                {
+                    return minDate;
+                }
+
+                return _end;
             }
             set
             {
                 _end = value;
             }
         }
+
+        #region HELPERS DATES
+        public DateTime LastWeekStart
+        {
+            get
+            {
+                return DateTime.Now.AddDays(-7);
+            }
+        }
+
+        public DateTime LastMonthStart
+        {
+            get
+            {
+                return DateTime.Now.AddMonths(-1);
+            }
+        }
+
+        public DateTime LastYearStart
+        {
+            get
+            {
+                return DateTime.Now.AddYears(-1);
+            }
+        }
+
+        public DateTime CurrentDate
+        {
+            get
+            {
+                return DateTime.Now;
+            }
+        }
+        #endregion HELPERS DATES
     }
 }

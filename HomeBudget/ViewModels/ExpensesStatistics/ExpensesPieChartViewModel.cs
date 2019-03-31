@@ -12,6 +12,5 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
         /// Expenses category id which the chart refers to
         /// </summary>
         public int ExpensesCategoryId { get; set; }
-        public string ShowDetailsHtml { get; set; }
     }
 }

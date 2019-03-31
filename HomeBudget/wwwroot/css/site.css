@@ -65,6 +65,10 @@
     right: 20px;
     top: 5px;
 }
+    .pie-chart .details .showDetailsStats {
+        cursor: pointer;
+    }
+
 .pie-chart .legend .description {
     margin-right: 10px;
 }

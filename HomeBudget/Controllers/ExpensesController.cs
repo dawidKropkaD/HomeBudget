@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeBudget.BusinessLogic;
+using HomeBudget.BusinessLogic.Services;
 using HomeBudget.DataAccess.Models;
 using HomeBudget.ViewModels.Expenses;
 using Microsoft.AspNetCore.Authorization;
@@ -12,15 +13,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace HomeBudget.Controllers
 {
     [Authorize]
-    public class ExpensesController : Controller
+    public class ExpensesController : BaseController
     {
-        private int UserId => Convert.ToInt32(User.FindFirst("Id").Value);
-
-
         public IActionResult Add()
         {
             AddViewModel vm = new AddViewModel();
-            vm.LoadInitialData(UserId, Request.Cookies["DateOfAddingExpense"]);
+            vm.Init(UserId, Request.Cookies["DateOfAddingExpense"]);
 
             return View(vm);
         }
@@ -30,7 +28,7 @@ namespace HomeBudget.Controllers
         {
             if (!ModelState.IsValid)
             {
-                vm.LoadInitialData(UserId, Request.Cookies["DateOfAddingExpense"]);
+                vm.Init(UserId, Request.Cookies["DateOfAddingExpense"]);
 
                 return View(vm);
             }
@@ -50,14 +48,16 @@ namespace HomeBudget.Controllers
             Response.Cookies.Append("DateOfAddingExpense", vm.Date.ToString(), new CookieOptions() { Expires = DateTime.Now.AddDays(7) });
             TempData["SuccessMessage"] = "Wydatek został dodany";
 
-            return RedirectToAction("Add");
+            return RedirectToAction(nameof(Add));
         }
+
 
         public JsonResult GetProductNames(string term)
         {
             Searcher searcher = new Searcher(term, 20);
             return Json(searcher.GetExpenseNames(UserId));
         }
+
 
         public JsonResult AddingHelper(string expenseName)
         {

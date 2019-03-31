@@ -28,7 +28,7 @@
     </div>
     <div class="form-group col-auto">
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="lastRadio" id="lastMonthCheck" checked>
+            <input class="form-check-input" type="radio" name="lastRadio" id="lastMonthCheck">
             <label class="form-check-label" for="lastMonthCheck">
                 miesiąc
             </label>
@@ -44,33 +44,7 @@
     </div>
 </div>
 
-<script>
-    $('#Start, #End').change(function () {
-        $('input[type=radio][name=lastRadio]').prop('checked', false);
-    });
-    
-    $('input[type=radio][name=lastRadio]').change(function () {
-        var startDate = new Date();
-        if (this.id == 'lastWeekCheck') {
-            startDate = new Date(new Date().setDate(new Date().getDate() - 7)); //substract 7 days
-        }
-        else if (this.id == 'lastMonthCheck') {
-            startDate = new Date(startDate.setMonth(startDate.getMonth() - 1)); //substract 1 month
-            startDate = new Date(startDate.setDate(startDate.getDate() + 1)); //add one day
-        }
-        else if (this.id == 'lastYearCheck') {
-            startDate = new Date(startDate.setFullYear(startDate.getFullYear() - 1)); //substract 1 year
-            startDate = new Date(startDate.setDate(startDate.getDate() + 1)); //add one day
-        }
-
-        $('#Start').val(GetDateAsString(startDate));
-        $('#End').val(GetDateAsString(new Date()));
-    });
-
-    function GetDateAsString(date) {
-        var day = ("0" + date.getDate()).slice(-2);
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-
-        return date.getFullYear() + "-" + (month) + "-" + (day);
-    }
-</script>
+<input type="date" asp-for="LastWeekStart" hidden />
+<input type="date" asp-for="LastMonthStart" hidden />
+<input type="date" asp-for="LastYearStart" hidden />
+<input type="date" asp-for="CurrentDate" hidden />

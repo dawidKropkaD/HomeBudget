@@ -18,11 +18,5 @@ namespace HomeBudget.DataAccess.Models
 
         public Users User { get; set; }
         public ICollection<Expenses> Expenses { get; set; }
-
-
-        static public List<Categories> GetAvailableForUser(int userId)
-        {
-            return new HomeBudgetContext().Categories.Where(x => x.UserId == null || x.UserId == userId).ToList();
-        }
     }
 }

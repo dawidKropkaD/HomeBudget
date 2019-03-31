@@ -10,54 +10,51 @@
 <div asp-validation-summary="ModelOnly" class="form-error-message"></div>
 <form asp-controller="Expenses" asp-action="Add" method="post">
     <div class="form-group row">
-        <label asp-for="Date" class="col-sm-2 col-form-label text-right"></label>
-        <div class="col-sm-4">
+        <label asp-for="Date" class="col-md-2 col-form-label col-md-text-right"></label>
+        <div class="col-md-4">
             <input asp-for="Date" class="form-control" type="date">
             <span asp-validation-for="Date" class="form-error-message"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="ProductName" class="col-sm-2 col-form-label text-right"></label>
-        <div class="col-sm-4">
+        <label asp-for="ProductName" class="col-md-2 col-form-label col-md-text-right"></label>
+        <div class="col-md-4">
             <input asp-for="ProductName" class="form-control">
             <span asp-validation-for="ProductName" class="form-error-message"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="SelectedCategoryId" class="col-sm-2 col-form-label text-right"></label>
-        <div class="col-sm-4">
-            @{ 
-#warning kontrolka do wymiany, powinna być taka sama jak pozostałe
-            }
-            <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="chosen">
+        <label asp-for="SelectedCategoryId" class="col-md-2 col-form-label col-md-text-right"></label>
+        <div class="col-md-4">
+            <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="form-control" data-live-search="true">
                 <option value="0" disabled selected>--- Wybierz ---</option>
             </select>
             <span asp-validation-for="SelectedCategoryId" class="form-error-message"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="Price" class="col-sm-2 col-form-label text-right"></label>
-        <div class="col-sm-4">
+        <label asp-for="Price" class="col-md-2 col-form-label col-md-text-right"></label>
+        <div class="col-md-4">
             <input asp-for="Price" class="form-control">
             <span asp-validation-for="Price" class="form-error-message"></span>
         </div>
-        <div class="col-sm-auto col-form-label">
+        <div class="col-md-auto col-form-label">
             <span>zł</span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="Quantity" class="col-sm-2 col-form-label text-right"></label>
-        <div class="col-sm-4">
+        <label asp-for="Quantity" class="col-md-2 col-form-label col-md-text-right"></label>
+        <div class="col-md-4">
             <input asp-for="Quantity" class="form-control">
             <span asp-validation-for="Quantity" class="form-error-message"></span>
         </div>
-        <div>
+        <div class="col-md-auto">
             <select asp-for="SelectedUnitId" asp-items="@Model.Units" class="custom-select"></select>
         </div>
     </div>
     <div class="form-group row">
-        <span class="col-sm-2"></span>
-        <div class="col-sm-4">
+        <span class="col-md-2"></span>
+        <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Dodaj</button>
         </div>
     </div>
@@ -65,66 +62,59 @@
 
 
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@section Styles{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="~/lib/bootstrap-select-1.13.6/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+}
 
-<script src="~/lib/chosen/chosen.jquery.min.js"></script>
-<link rel="stylesheet" href="~/lib/chosen/chosen.min.css">
+@section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap-select-1.13.6/dist/js/bootstrap-select.min.js"></script>
 
-<style>
-    .ui-autocomplete {
-        max-height: 300px;
-        overflow-y: auto;
-        /* prevent horizontal scrollbar */
-        overflow-x: hidden;
-    }
-</style>
+    <script>
+        $('#SelectedCategoryId').selectpicker();
 
-<script>
-    jQuery(document).ready(function () {
-        jQuery(".chosen").chosen();
-    });
-
-
-    $("#ProductName").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: '@Url.Action("GetProductNames")',
-                dataType: "json",
-                data: { term: request.term },
-                success: function (data) {
-                    response(data);
-                }
-            });
-        },
-        minLength: 2,
-        select: function (event, ui) {
-            tryAutoFill(ui.item.value);
-        }
-    });
-
-
-    function tryAutoFill(expenseName) {
-        if ($('#SelectedCategoryId').find(":selected").val() != 0
-            || $('#Price').val().length != 0
-            || $('#Quantity').val() != 0
-            || $('#SelectedUnitId').find(":selected").val() != '')
-        {
-            return;
-        }
-
-        $.ajax({
-            url: '@Url.Action("AddingHelper")',
-            dataType: "json",
-            data: { expenseName: expenseName },
-            success: function (data) {
-                if (data.success) {
-                    $("#SelectedCategoryId").val(data.categoryId).trigger("chosen:updated");
-                    $('#Price').val(data.price)
-                    $('#Quantity').val(data.quantity)
-                    $("#SelectedUnitId").val(data.unitId);
-                }
+        $("#ProductName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetProductNames")',
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                tryAutoFill(ui.item.value);
             }
         });
-    }
-</script>
+
+
+        function tryAutoFill(expenseName) {
+            if ($('#SelectedCategoryId').find(":selected").val() != 0
+                || $('#Price').val().length != 0
+                || $('#Quantity').val() != 1
+                || $('#SelectedUnitId').find(":selected").val() != '1')
+            {
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("AddingHelper")',
+                dataType: "json",
+                data: { expenseName: expenseName },
+                success: function (data) {
+                    if (data.success) {
+                        $("#SelectedCategoryId").val(data.categoryId);
+                        $('#SelectedCategoryId').selectpicker('refresh');                        
+                        $('#Price').val(data.price)
+                        $('#Quantity').val(data.quantity)
+                        $("#SelectedUnitId").val(data.unitId);
+                    }
+                }
+            });
+        }
+    </script>
+}

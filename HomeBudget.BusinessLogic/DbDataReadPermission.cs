@@ -9,19 +9,25 @@ namespace HomeBudget.BusinessLogic
 {
     public class DbDataReadPermission
     {
-        public DbDataReadPermission(int userId, int? catId = null)
+        public DbDataReadPermission(int userId, int? catId = null, int? unitId = null)
         {
             HomeBudgetContext context = new HomeBudgetContext();
 
-            if (!catId.HasValue || !context.Categories.Any(x => x.Id == catId.Value && (x.UserId == null || x.UserId == userId)))
+            if (catId.HasValue && !context.Categories.Any(x => x.Id == catId.Value && (x.UserId == null || x.UserId == userId)))
             {
                 HasPermission = false;
-                NonPermissionObjectNames.Add(nameof(Categories));
+                ObjectNamesWithoutPermission.Add(nameof(Categories));
+            }
+
+            if (unitId.HasValue && !context.Units.Any(x => x.Id == unitId.Value))
+            {
+                HasPermission = false;
+                ObjectNamesWithoutPermission.Add(nameof(Units));
             }
         }
 
                 
-        public bool HasPermission { get; protected set; } = true;
-        public List<string> NonPermissionObjectNames { get; protected set; } = new List<string>();
+        public bool HasPermission { get; private set; } = true;
+        public List<string> ObjectNamesWithoutPermission { get; private set; } = new List<string>();
     }
 }

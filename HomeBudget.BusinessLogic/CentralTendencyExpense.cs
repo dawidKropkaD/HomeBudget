@@ -29,8 +29,8 @@ namespace HomeBudget.BusinessLogic
                     .Where(x => x.UserId == userId && x.Name != null && x.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     .GroupBy(x => x.TotalPrice)
                     .OrderByDescending(x => x.Count())
-                    .Take(1)
-                    .Select(x => x.FirstOrDefault()).FirstOrDefault();
+                    .Select(x => x.FirstOrDefault())
+                    .FirstOrDefault();
         }
     }
 }

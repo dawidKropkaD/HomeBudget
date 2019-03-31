@@ -7,14 +7,20 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/fontawesome-free-5.0.13/web-fonts-with-css/css/fontawesome-all.css" />
-        <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/fontawesome-free-5.0.13/web-fonts-with-css/css/fontawesome-all.min.css" />
+    </environment>
+
+    @RenderSection("Styles", required: false)
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -34,7 +40,7 @@
                                 Statystyki wydatków
                             </a>
                             <div class="dropdown-menu" aria-labelledby="ExpensesStatisticsDropdown">
-                                <a class="dropdown-item" asp-controller="ExpensesStatistics" asp-action="Index">Ogólne</a>
+                                <a class="dropdown-item" asp-controller="ExpensesStatistics" asp-action="MainCategories">Ogólne</a>
                                 <a class="dropdown-item" asp-controller="ExpensesStatistics" asp-action="CategoryExpenses">Szczegółowe</a>
                             </div>
                         </li>
@@ -92,6 +98,7 @@
     </div>
 
     <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
         @*<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
         <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>

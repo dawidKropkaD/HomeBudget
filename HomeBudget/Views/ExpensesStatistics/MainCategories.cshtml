@@ -1,0 +1,79 @@
+﻿@model HomeBudget.ViewModels.ExpensesStatistics.MainCategoriesViewModel
+@{
+    ViewData["Title"] = "Statystyki wydatków dla kategorii głównych";
+}
+
+<h2>Statystyki wydatków dla kategorii głównych</h2>
+<hr />
+<div class="row">
+    <div class="col-lg-10">@Html.Partial("_DateRange", Model.DateRangeVm)</div>
+    <div class="col-lg-2"><button class="btn btn-primary" id="showStatsBtn">Pokaż statystyki</button></div>
+</div>
+
+<hr />
+
+@Html.Partial("_PieCharts", Model.PieCharts)
+
+
+@section Scripts{
+    <script src="~/lib/chart/Chart.js"></script>
+
+    <script>
+        var pieCharts = @Html.Raw(Json.Serialize(Model.PieCharts));
+
+        for (var i = 0; i < pieCharts.length; i++)
+        {
+            var pieChartCanvasId = "pie-chart-" + i;
+            var pieChartCanvas = document.getElementById(pieChartCanvasId);
+            var chart = new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: pieCharts[i].tooltipLabels,
+                    datasets: [{
+                        backgroundColor: pieCharts[i].hexBgColors,
+                        data: pieCharts[i].percentages
+                    }]
+                },
+                options: {
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return data["labels"][tooltipItem['index']]
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+
+            //LEGEND
+            $("#" + pieChartCanvasId + "-legend").html(getLegend(pieCharts[i].hexBgColors, pieCharts[i].legendLabels));
+        }
+
+        function getLegend(hexBgColors, labels) {
+            var text = [];
+            for (var i = 0; i < hexBgColors.length; i++) {
+                text.push('<span class="square" style="color:' + hexBgColors[i] + '"></span>');
+                text.push('<span class="description">' + labels[i] + '</span>');
+            }
+            return text.join('');
+        }
+
+
+        $('.showDetailsStats').click(function () {
+            var start = $('#Start').val();
+            var end = $('#End').val();
+
+            window.location.href = "/ExpensesStatistics/CategoryExpenses/" + $(this).data("category-id") + "?Start=" + start + "&End=" + end;
+        })
+
+        $('#showStatsBtn').click(function () {
+            var start = $('#Start').val();
+            var end = $('#End').val();
+
+            window.location.href = "/ExpensesStatistics/MainCategories?Start=" + start + "&End=" + end;
+        })
+    </script>
+}

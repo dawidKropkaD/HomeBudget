@@ -12,6 +12,7 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
     public class CategoryExpensesViewModel
     {
         int categoryId;
+        string categoryName;
         string categoryHexBgColor = "#00FF00";
         string subCategoriesHexBgColor = "#0000FF";
         List<Categories> availableCategories;
@@ -21,55 +22,53 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
         {
             DateRangeViewModel = dateRangeVM;
             this.availableCategories = availableCategories;
-            PageTitle = "Statystyki wydatków w danej kategorii";
         }
 
-        public CategoryExpensesViewModel(CategoryExpensesSummary categoryExpensesSummary, List<Categories> availableCategories, DateRangeViewModel dateRangeVM) : this(availableCategories, dateRangeVM)
+        public CategoryExpensesViewModel(CategoryExpensesSummary summary, List<Categories> availableCategories, Categories selectedCategory, DateRangeViewModel dateRangeVM) : this(availableCategories, dateRangeVM)
         {            
-            categoryId = categoryExpensesSummary.Category.Id;
-            CategoryName = categoryExpensesSummary.Category.Name;
+            categoryId = selectedCategory.Id;
+            categoryName = selectedCategory.Name;
 
-            if (categoryExpensesSummary.GroupedExpenses.Count() == 0)
+            if (summary.GroupedExpenses.Count() == 0)
             {
-                PageTitle = $"Nie znaleziono ani jednego wydatku w kategorii {CategoryName}";
+                ChartHeader = $"Nie znaleziono ani jednego wydatku w kategorii {categoryName}";
                 return;
             }
             
-            PageTitle = $"Statystyki wydatków w kategorii {CategoryName} ({categoryExpensesSummary.GroupedExpenses.Sum(x => x.TotalPricesSum)}zł)";
+            ChartHeader = $"{categoryName} ({summary.GroupedExpenses.Sum(x => x.TotalPricesSum)}zł)";
             BarChartViewModel = new BarChartViewModel()
             {
                 Type = "horizontalBar",
-                Labels = categoryExpensesSummary.GroupedExpenses.Select(x => x.Name ?? string.Empty).ToList(),
-                Values = categoryExpensesSummary.GroupedExpenses.Select(x => x.TotalPricesSum).ToList(),
-                Height = categoryExpensesSummary.GroupedExpenses.Count() * 20 + 30,
+                Labels = summary.GroupedExpenses.Select(x => x.Name ?? string.Empty).ToList(),
+                Values = summary.GroupedExpenses.Select(x => x.TotalPricesSum).ToList(),
+                Height = summary.GroupedExpenses.Count() * 20 + 30,
                 LegendSquaresHexColors = new List<string>() { categoryHexBgColor, subCategoriesHexBgColor },
-                LegendDescriptions = new List<string>() { $"Wydatek należący do kategorii {CategoryName}", $"Wydatek należący do jednej z podkategorii kategorii {CategoryName}" },
+                LegendDescriptions = new List<string>() { $"Wydatek należący do kategorii {categoryName}", $"Wydatek należący do jednej z podkategorii kategorii {categoryName}" },
             };
 
-            foreach (var item in categoryExpensesSummary.GroupedExpenses)
+            foreach (var item in summary.GroupedExpenses)
             {
                 AddChartBgColor(item);
                 AddChartTootlip(item);
             }
         }
 
-
-        public string CategoryName { get; set; }
-        public string PageTitle { get; set; }
+        
+        public string ChartHeader { get; set; }
         public BarChartViewModel BarChartViewModel { get; set; }
-        public SelectList SelectCategoryItems
+        public SelectList Categories
         {
             get
             {
                 return new SelectList(availableCategories, "Id", "Name", categoryId);
             }
         }
-        public DateRangeViewModel DateRangeViewModel { get; set; } = new DateRangeViewModel();
+        public DateRangeViewModel DateRangeViewModel { get; set; }
 
 
-        private void AddChartBgColor(GroupedExpense groupedExpense)
+        private void AddChartBgColor(CategoryExpensesSummaryItem summaryItem)
         {
-            if (groupedExpense.CategoryId == categoryId)
+            if (summaryItem.CategoryId == categoryId)
             {
                 BarChartViewModel.HexBgColors.Add(categoryHexBgColor);
             }
@@ -79,17 +78,25 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
             }
         }
 
-        private void AddChartTootlip(GroupedExpense groupedExpense)
+        private void AddChartTootlip(CategoryExpensesSummaryItem summaryItem)
         {
-            string tooltip = $"{groupedExpense.Name ?? "Brak nazwy"} {groupedExpense.TotalPricesSum}zł (";
+            string tooltip = $"{summaryItem.TotalPricesSum}zł (";
             string separator = ", ";
 
-            foreach (var tuple in groupedExpense.Quantity)
+            foreach (var tuple in summaryItem.Quantity)
             {
-                tooltip += tuple.Item2 + tuple.Item1 + separator;
+                if (tuple.Item1 == null)
+                {
+#warning zamiast info o liczbie rekordów bez podanej ilości, dać info w ilu procentach podano ilość
+                    tooltip += tuple.Item2 + " rekord(ów) bez danych" + separator;
+                }
+                else
+                {
+                    tooltip += tuple.Item2 + tuple.Item1 + separator;
+                }
             }
 
-            if (groupedExpense.Quantity.Count() > 0)
+            if (summaryItem.Quantity.Count() > 0)
             {
                 tooltip = tooltip.Substring(0, tooltip.Length - separator.Length);
             }

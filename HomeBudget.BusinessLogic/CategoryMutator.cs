@@ -9,34 +9,34 @@ namespace HomeBudget.BusinessLogic
 {
     public class CategoryMutator
     {
-        public List<Categories> allCategories;
+        public List<Categories> categories;
 
-        public CategoryMutator(List<Categories> allCategories)
+        public CategoryMutator(List<Categories> categories)
         {
-            this.allCategories = allCategories;
+            this.categories = categories ?? throw new Exception("Parameter can not be null");
         }
 
-        public List<Categories> GetWithParentNames()
+
+        /// <returns>Key is category id, value is category name with parent category names</returns>
+        public Dictionary<int, string> GetWithParentNames()
         {
-            Dictionary<int, string> originalNames = new Dictionary<int, string>();
+            Dictionary<int, string> result = new Dictionary<int, string>();
 
-            foreach (var item in allCategories)
+            foreach (var item in categories)
             {
-                originalNames.Add(item.Id, item.Name);
-            }
+                result.Add(item.Id, item.Name);
 
-            foreach (var item in allCategories)
-            {
                 int? parentId = item.ParentCategoryId;
 
                 while (parentId != null)
                 {
-                    item.Name += $" [{originalNames[(int)parentId]}]";
-                    parentId = allCategories.First(x => x.Id == parentId).ParentCategoryId;
+                    Categories parent = categories.First(x => x.Id == parentId);
+                    result[item.Id] += $" [{parent.Name}]";
+                    parentId = parent.ParentCategoryId;
                 }
             }
 
-            return allCategories.OrderBy(x => x.Name).ToList();
+            return result;
         }
     }
 }

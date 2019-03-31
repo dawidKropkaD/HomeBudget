@@ -22,7 +22,13 @@ namespace HomeBudget.BusinessLogic
 
         public List<string> GetExpenseNames(int userId)
         {
-            return context.Expenses.Where(x => x.UserId == userId && x.Name.Contains(text)).Select(x => x.Name).Distinct().ToList();
+            return context.Expenses
+                .Where(x => x.UserId == userId && x.Name.Contains(text))
+                .OrderBy(x => x.Name.Length)
+                .Select(x => x.Name).Distinct()
+                .Take(maxResultCount)
+                .OrderBy(x => x)
+                .ToList();
         }
     }
 }
