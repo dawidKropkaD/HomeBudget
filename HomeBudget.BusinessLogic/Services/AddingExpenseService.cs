@@ -17,8 +17,9 @@ namespace HomeBudget.BusinessLogic.Services
         }
 
 
-        public (List<Units> unitsDto, Dictionary<int, string> categoriesWithParentNames) GetInitData(int userId)
+        public (List<Units> unitsDto, Dictionary<int, string> categoriesWithParentNames, List<Expenses> lastAddedExpenses) GetInitData(int userId)
         {
+            List<Expenses> lastAddedExpenses = context.Expenses.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).Take(5).ToList();
             List<Units> units = context.Units.OrderBy(x => x.Name).ToList();
 
             List<Categories> categoriesDto = context.Categories.Where(x => x.UserId == null || x.UserId == userId).OrderBy(x => x.Name).ToList();
@@ -26,7 +27,7 @@ namespace HomeBudget.BusinessLogic.Services
 
             Dictionary<int, string> categoriesWithParentNames = categoryMutator.GetWithParentNames();
 
-            return (units, categoriesWithParentNames);
+            return (units, categoriesWithParentNames, lastAddedExpenses);
         }
 
 

@@ -93,3 +93,26 @@
     background-color: inherit;
     color: rgba(255, 255, 255, 0.75);
 }
+
+
+/*blackboard*/
+.blackboard {
+    background-color: #ccc;
+    border-radius: 25px;
+    padding: 10px;
+}
+    .blackboard .blackboard-header {
+        text-align: center;
+        font: bold 20px arial, sans-serif;
+        background-color: #565656;
+        color: transparent;
+        text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        background-clip: text;
+    }
+    .blackboard .blackboard-item {
+        background-color: #ddd;
+        border-radius: 25px;
+        padding: 10px;
+    }

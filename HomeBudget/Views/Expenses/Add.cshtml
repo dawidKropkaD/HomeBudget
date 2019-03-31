@@ -7,58 +7,77 @@
 <h2>Dodaj wydatek</h2>
 <hr />
 
-<div asp-validation-summary="ModelOnly" class="form-error-message"></div>
-<form asp-controller="Expenses" asp-action="Add" method="post">
-    <div class="form-group row">
-        <label asp-for="Date" class="col-md-2 col-form-label col-md-text-right"></label>
-        <div class="col-md-4">
-            <input asp-for="Date" class="form-control" type="date">
-            <span asp-validation-for="Date" class="form-error-message"></span>
+<div class="row">
+    <div class="col-lg-8">
+        <div asp-validation-summary="ModelOnly" class="form-error-message"></div>
+        <form asp-controller="Expenses" asp-action="Add" method="post">
+            <div class="form-group row">
+                <label asp-for="Date" class="col-md-4 col-form-label col-md-text-right"></label>
+                <div class="col-md-8">
+                    <input asp-for="Date" class="form-control" type="date">
+                    <span asp-validation-for="Date" class="form-error-message"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductName" class="col-md-4 col-form-label col-md-text-right"></label>
+                <div class="col-md-8">
+                    <input asp-for="ProductName" class="form-control">
+                    <span asp-validation-for="ProductName" class="form-error-message"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SelectedCategoryId" class="col-md-4 col-form-label col-md-text-right"></label>
+                <div class="col-md-8">
+                    <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="form-control" data-live-search="true">
+                        <option value="0" disabled selected>--- Wybierz ---</option>
+                    </select>
+                    <span asp-validation-for="SelectedCategoryId" class="form-error-message"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price" class="col-md-4 col-form-label col-md-text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Price" class="form-control">
+                    <span asp-validation-for="Price" class="form-error-message"></span>
+                </div>
+                <div class="col-md-1 col-form-label">
+                    <span>zł</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Quantity" class="col-md-4 col-form-label col-md-text-right"></label>
+                <div class="col-md-5">
+                    <input asp-for="Quantity" class="form-control">
+                    <span asp-validation-for="Quantity" class="form-error-message"></span>
+                </div>
+                <div class="col-md-3">
+                    <select asp-for="SelectedUnitId" asp-items="@Model.Units" class="custom-select"></select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <span class="col-md-4"></span>
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-4">
+        <div class="blackboard">
+            <p class="blackboard-header">
+                5 ostatnio dodanych wydatków
+            </p>
+            @foreach (var item in Model.LastAddedExpenses)
+            {
+                <p class="blackboard-item">
+                    @item.AddedDate
+                    <span class="font-weight-bold">@item.Name</span>
+                    @item.Quantity @item.TotalPrice
+                </p>
+            }
         </div>
     </div>
-    <div class="form-group row">
-        <label asp-for="ProductName" class="col-md-2 col-form-label col-md-text-right"></label>
-        <div class="col-md-4">
-            <input asp-for="ProductName" class="form-control">
-            <span asp-validation-for="ProductName" class="form-error-message"></span>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label asp-for="SelectedCategoryId" class="col-md-2 col-form-label col-md-text-right"></label>
-        <div class="col-md-4">
-            <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="form-control" data-live-search="true">
-                <option value="0" disabled selected>--- Wybierz ---</option>
-            </select>
-            <span asp-validation-for="SelectedCategoryId" class="form-error-message"></span>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label asp-for="Price" class="col-md-2 col-form-label col-md-text-right"></label>
-        <div class="col-md-4">
-            <input asp-for="Price" class="form-control">
-            <span asp-validation-for="Price" class="form-error-message"></span>
-        </div>
-        <div class="col-md-auto col-form-label">
-            <span>zł</span>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label asp-for="Quantity" class="col-md-2 col-form-label col-md-text-right"></label>
-        <div class="col-md-4">
-            <input asp-for="Quantity" class="form-control">
-            <span asp-validation-for="Quantity" class="form-error-message"></span>
-        </div>
-        <div class="col-md-auto">
-            <select asp-for="SelectedUnitId" asp-items="@Model.Units" class="custom-select"></select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <span class="col-md-2"></span>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary">Dodaj</button>
-        </div>
-    </div>
-</form>
+</div>
 
 
 

@@ -17,6 +17,7 @@ namespace HomeBudget.ViewModels.Expenses
         [Display(Name = "Data *")]        
         public DateTime Date { get; set; }
 
+        [StringLength(50)]
         [Display(Name = "Nazwa produktu")]
         public string ProductName { get; set; }
 
@@ -39,6 +40,8 @@ namespace HomeBudget.ViewModels.Expenses
 
         public SelectList Units { get; set; }
 
+        public List<LastAddedExpense> LastAddedExpenses { get; set; } = new List<LastAddedExpense>();
+
 
         public void Init(int userId, string sDateFromCookie)
         {
@@ -58,6 +61,17 @@ namespace HomeBudget.ViewModels.Expenses
 
             DateTime.TryParse(sDateFromCookie, out DateTime dateFromCookie);
             Date = dateFromCookie == DateTime.MinValue ? DateTime.Now : dateFromCookie;
+
+            //Last added expenses
+            foreach (var item in initData.lastAddedExpenses)
+            {
+                LastAddedExpenses.Add(new LastAddedExpense(item));
+            }
+
+            while (LastAddedExpenses.Count() < 5)
+            {
+                LastAddedExpenses.Add(new LastAddedExpense());
+            }
         }
 
 
@@ -76,6 +90,33 @@ namespace HomeBudget.ViewModels.Expenses
             {
                 yield return new ValidationResult("Podaj ilość i wybierz jednostę lub pozostaw oba pola puste.");
             }
+        }
+
+
+
+        public class LastAddedExpense
+        {
+            public LastAddedExpense()
+            {
+            }
+
+            public LastAddedExpense(DataAccess.Models.Expenses expense)
+            {
+                Name = expense.Name ?? expense.Category.Name;
+                TotalPrice = expense.TotalPrice.ToString() + " zł";
+                AddedDate = expense.Date.ToShortDateString();
+
+                if (expense.Quantity != null)
+                {
+                    Quantity = $"({expense.Quantity} {expense.Unit.Name})";
+                }
+                
+            }
+
+            public string Name { get; set; }
+            public string TotalPrice { get; set; }
+            public string AddedDate { get; set; }
+            public string Quantity { get; set; }
         }
     }
 }
