@@ -10,8 +10,10 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
 {
     public class MainCategoriesViewModel
     {
-        public MainCategoriesViewModel(List<CategorySummary> categorySummaries)
+        public MainCategoriesViewModel(List<CategorySummary> categorySummaries, DateRangeViewModel dateRangeVm)
         {
+            DateRangeVm = dateRangeVm;
+
             foreach (var item in categorySummaries)
             {
                 PieCharts.Add(new ExpensesPieChartViewModel()
@@ -28,7 +30,7 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
 
 
         public List<ExpensesPieChartViewModel> PieCharts { get; set; } = new List<ExpensesPieChartViewModel>();
-        public DateRangeViewModel DateRangeVm { get; set; } = new DateRangeViewModel();
+        public DateRangeViewModel DateRangeVm { get; set; }
 
 
         public List<string> GetChartItemBgColors(int bgColorNumbers)

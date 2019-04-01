@@ -15,16 +15,20 @@ namespace HomeBudget.Controllers
     {
         public IActionResult MainCategories(DateRangeViewModel dateRangeVM)
         {
+            ModelState.Clear();
+
             ExpensesStatisticsService service = new ExpensesStatisticsService(UserId, dateRangeVM.Start, dateRangeVM.End);
             List<CategorySummary> categorySummaries = service.MainCategories();
-            MainCategoriesViewModel vm = new MainCategoriesViewModel(categorySummaries);
-
+            MainCategoriesViewModel vm = new MainCategoriesViewModel(categorySummaries, dateRangeVM);
+            
             return View(vm);
         }
 
 
         public IActionResult CategoryExpenses(int? id, DateRangeViewModel dateRangeVM)
         {
+            ModelState.Clear();
+
             ExpensesStatisticsService service = new ExpensesStatisticsService(UserId, dateRangeVM.Start, dateRangeVM.End);
 
             DbDataReadPermission readPermission = new DbDataReadPermission(UserId, id);
