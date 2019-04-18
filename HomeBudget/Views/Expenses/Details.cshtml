@@ -1,0 +1,33 @@
+﻿@model HomeBudget.ViewModels.Expenses.DetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Szczegóły</h2>
+
+<dl class="row ">
+    <dt class="col-sm-3"><label asp-for="Id"></label></dt>
+    <dd class="col-sm-9">@Model.Id</dd>
+
+    <dt class="col-sm-3"><label asp-for="Name"></label></dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+
+    <dt class="col-sm-3"><label asp-for="Date"></label></dt>
+    <dd class="col-sm-9">@Model.Date</dd>
+
+    <dt class="col-sm-3"><label asp-for="CategoryName"></label></dt>
+    <dd class="col-sm-9">@Model.CategoryName</dd>
+
+    <dt class="col-sm-3"><label asp-for="Price"></label></dt>
+    <dd class="col-sm-9">@Model.Price zł</dd>
+
+    <dt class="col-sm-3"><label asp-for="Quantity"></label></dt>
+    <dd class="col-sm-9">@Model.Quantity @Model.UnitName</dd>
+</dl>
+
+
+<style>
+    dl dt{
+        text-align:right;
+    }
+</style>

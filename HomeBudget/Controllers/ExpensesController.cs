@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HomeBudget.BusinessLogic;
 using HomeBudget.BusinessLogic.Services;
 using HomeBudget.DataAccess.Models;
+using HomeBudget.Extensions;
 using HomeBudget.ViewModels.Expenses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +50,54 @@ namespace HomeBudget.Controllers
             TempData["SuccessMessage"] = "Wydatek został dodany";
 
             return RedirectToAction(nameof(Add));
+        }
+
+
+        public IActionResult Edit(int id)
+        {
+            ExpenseService expenseService = new ExpenseService(id, UserId);
+
+            if (!expenseService.Exist())
+            {
+                return NotFound();
+            }
+
+            EditViewModel vm = new EditViewModel(expenseService.Expense);
+
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(EditViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.Init(UserId);
+
+                return View();
+            }
+
+            new ExpenseService(vm.Id, UserId).Edit(vm);
+
+            TempData["SuccessMessage"] = "Wydatek został edytowany";
+
+            return RedirectToAction("Details", new { vm.Id });
+        }
+
+
+        public IActionResult Details(int id)
+        {
+            ExpenseService expenseService = new ExpenseService(id, UserId);
+
+            if (!expenseService.Exist())
+            {
+                return NotFound();
+            }
+
+            DetailsViewModel vm = new DetailsViewModel(expenseService.Expense);
+
+            return View(vm);
         }
 
 

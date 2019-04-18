@@ -12,7 +12,7 @@ namespace HomeBudget.BusinessLogic
         public CategorySummary(CategoryTreeNode root, List<Expenses> expenses)
         {
             Category = root.Value;
-            ExpensesCostSum = expenses.Sum(x => x.TotalPrice);
+            ExpensesCost = expenses.Sum(x => x.TotalPrice);
 
             decimal catCostSum = expenses.Where(x => x.CategoryId == root.Value.Id).Sum(x => x.TotalPrice);
             TryAddSummaryItem(catCostSum, root.Value.Name);
@@ -34,7 +34,7 @@ namespace HomeBudget.BusinessLogic
 
 
         public Categories Category { get; set; }
-        public decimal ExpensesCostSum { get; set; }
+        public decimal ExpensesCost { get; set; }
         public List<CategorySummaryItem> SummaryItems { get; set; } = new List<CategorySummaryItem>();
 
 
@@ -56,7 +56,7 @@ namespace HomeBudget.BusinessLogic
 
             foreach (var item in SummaryItems)
             {
-                decimal percentageDecimal = (item.Value * 100) / ExpensesCostSum;
+                decimal percentageDecimal = (item.Value * 100) / ExpensesCost;
                 item.Percentage = (int)Math.Floor(percentageDecimal);
                 summaryItemsWithDecimalPartPercentages.Add(new Tuple<decimal, CategorySummaryItem>(percentageDecimal - item.Percentage, item));
             }

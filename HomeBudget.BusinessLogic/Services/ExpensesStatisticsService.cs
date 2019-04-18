@@ -47,6 +47,8 @@ namespace HomeBudget.BusinessLogic.Services
                 categorySummaries.Add(summary);       
             }
 
+            categorySummaries = categorySummaries.OrderByDescending(x => x.ExpensesCost).ToList();
+
             return categorySummaries;
         }
 

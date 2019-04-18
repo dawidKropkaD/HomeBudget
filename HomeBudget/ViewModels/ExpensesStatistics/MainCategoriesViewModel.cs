@@ -13,6 +13,7 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
         public MainCategoriesViewModel(List<CategorySummary> categorySummaries, DateRangeViewModel dateRangeVm)
         {
             DateRangeVm = dateRangeVm;
+            ExpensesCost = categorySummaries.Sum(x => x.ExpensesCost);
 
             foreach (var item in categorySummaries)
             {
@@ -21,7 +22,7 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
                     TooltipLabels = item.SummaryItems.Select(x => $"{x.Name}: {x.Percentage}% ({x.Value} zł)").ToList(),
                     LegendLabels = item.SummaryItems.Select(x => x.Name + $" ({x.Value} zł)").ToList(),
                     Percentages = item.SummaryItems.Select(x => (decimal)x.Percentage).ToList(),
-                    Title = $"{item.Category.Name} ({item.SummaryItems.Sum(x => x.Value)} zł)",
+                    Title = $"{item.Category.Name} ({item.ExpensesCost} zł)",
                     HexBgColors = GetChartItemBgColors(item.SummaryItems.Count()),
                     ExpensesCategoryId = item.Category.Id
                 });
@@ -31,6 +32,7 @@ namespace HomeBudget.ViewModels.ExpensesStatistics
 
         public List<ExpensesPieChartViewModel> PieCharts { get; set; } = new List<ExpensesPieChartViewModel>();
         public DateRangeViewModel DateRangeVm { get; set; }
+        public decimal ExpensesCost { get; set; }
 
 
         public List<string> GetChartItemBgColors(int bgColorNumbers)

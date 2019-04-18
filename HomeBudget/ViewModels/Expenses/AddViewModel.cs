@@ -1,6 +1,7 @@
 ﻿using HomeBudget.BusinessLogic;
 using HomeBudget.BusinessLogic.Services;
 using HomeBudget.DataAccess.Models;
+using HomeBudget.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -45,25 +46,16 @@ namespace HomeBudget.ViewModels.Expenses
 
         public void Init(int userId, string sDateFromCookie)
         {
-            var initData = new AddingExpenseService().GetInitData(userId);
+            InitialDataService service = new InitialDataService(userId);
             
-            Categories = new SelectList(initData.categoriesWithParentNames, "Key", "Value");
-
-            List<SelectListItem> unitItems = new List<SelectListItem>();
-            unitItems.Add(new SelectListItem() { Text = "Brak" });
-
-            foreach (var item in initData.unitsDto)
-            {
-                unitItems.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
-            }
-
-            Units = new SelectList(unitItems, "Value", "Text");
+            Categories = new SelectList(service.CategoriesWithParentNames, "Key", "Value");
+            Units = service.Units.ToSelectList("Id", "Name", "Brak");
 
             DateTime.TryParse(sDateFromCookie, out DateTime dateFromCookie);
             Date = dateFromCookie == DateTime.MinValue ? DateTime.Now : dateFromCookie;
 
             //Last added expenses
-            foreach (var item in initData.lastAddedExpenses)
+            foreach (var item in service.LastAddedExpenses(5))
             {
                 LastAddedExpenses.Add(new LastAddedExpense(item));
             }

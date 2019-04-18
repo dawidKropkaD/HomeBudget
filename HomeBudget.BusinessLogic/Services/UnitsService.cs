@@ -7,20 +7,19 @@ using System.Threading.Tasks;
 
 namespace HomeBudget.BusinessLogic.Services
 {
-    public class AddingExpenseService
+    public class UnitsService
     {
         HomeBudgetContext context;
 
-        public AddingExpenseService()
+        public UnitsService()
         {
             context = new HomeBudgetContext();
         }
 
 
-        public void Add(Expenses expense)
+        public List<Units> GetAll()
         {
-            context.Expenses.Add(expense);
-            context.SaveChanges();
+            return context.Units.ToList();
         }
     }
 }
