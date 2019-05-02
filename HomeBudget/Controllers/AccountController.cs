@@ -20,7 +20,6 @@ namespace HomeBudget.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel vm)
         {
             if (!ModelState.IsValid)
@@ -87,7 +86,6 @@ namespace HomeBudget.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel vm)
         {
             if (!ModelState.IsValid)

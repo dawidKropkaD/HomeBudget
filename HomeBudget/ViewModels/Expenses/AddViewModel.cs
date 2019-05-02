@@ -1,4 +1,5 @@
 ﻿using HomeBudget.BusinessLogic;
+using HomeBudget.BusinessLogic.Interfaces;
 using HomeBudget.BusinessLogic.Services;
 using HomeBudget.DataAccess.Models;
 using HomeBudget.Extensions;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace HomeBudget.ViewModels.Expenses
 {
-    public class AddViewModel : IValidatableObject
+    public class AddViewModel : IValidatableObject, IAddingExpenseInputs
     {
         [Required]
         [Display(Name = "Data *")]        
@@ -46,16 +47,14 @@ namespace HomeBudget.ViewModels.Expenses
 
         public void Init(int userId, string sDateFromCookie)
         {
-            InitialDataService service = new InitialDataService(userId);
-            
-            Categories = new SelectList(service.CategoriesWithParentNames, "Key", "Value");
-            Units = service.Units.ToSelectList("Id", "Name", "Brak");
+            Categories = new SelectList(new CategoriesService(userId).GetAllWithParentNames(), "Key", "Value");
+            Units = new UnitsService().GetAll().ToSelectList("Id", "Name", "Brak");
 
             DateTime.TryParse(sDateFromCookie, out DateTime dateFromCookie);
             Date = dateFromCookie == DateTime.MinValue ? DateTime.Now : dateFromCookie;
 
             //Last added expenses
-            foreach (var item in service.LastAddedExpenses(5))
+            foreach (var item in new ExpensesService(userId).GetLastAdded(5))
             {
                 LastAddedExpenses.Add(new LastAddedExpense(item));
             }

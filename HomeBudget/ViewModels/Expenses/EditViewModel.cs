@@ -29,7 +29,7 @@ namespace HomeBudget.ViewModels.Expenses
             Quantity = expenseDto.Quantity;
             UnitId = expenseDto.UnitId;
 
-            Init(expenseDto.UserId);
+            InitConstantData(expenseDto.UserId);
         }
 
 
@@ -79,13 +79,10 @@ namespace HomeBudget.ViewModels.Expenses
         }
 
 
-        public void Init(int userId)
+        public void InitConstantData(int userId)
         {
-            CategoriesService categoriesService = new CategoriesService(userId);
-            UnitsService unitsService = new UnitsService();
-
-            Categories = new SelectList(categoriesService.GetAllWithParentNames(), "Key", "Value");
-            Units = unitsService.GetAll().ToSelectList("Id", "Name", "Brak");
+            Categories = new SelectList(new CategoriesService(userId).GetAllWithParentNames(), "Key", "Value");
+            Units = new UnitsService().GetAll().ToSelectList("Id", "Name", "Brak");
         }
     }
 }

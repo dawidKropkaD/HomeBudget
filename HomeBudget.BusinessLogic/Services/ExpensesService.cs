@@ -35,5 +35,11 @@ namespace HomeBudget.BusinessLogic.Services
 
             return (expenses, totalExpensesNumber);
         }
+
+
+        public List<Expenses> GetLastAdded(int number)
+        {
+            return context.Expenses.Include("Unit").Where(x => x.UserId == userId).OrderByDescending(x => x.Id).Take(number).ToList();
+        }
     }
 }

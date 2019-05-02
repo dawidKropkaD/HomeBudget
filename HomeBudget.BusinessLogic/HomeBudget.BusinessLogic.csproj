@@ -48,6 +48,7 @@
     <Compile Include="CategoryExpensesSummaryGroup.cs" />
     <Compile Include="CategoryExpensesSummaryItem.cs" />
     <Compile Include="CategorySummary.cs" />
+    <Compile Include="Interfaces\IAddingExpenseInputs.cs" />
     <Compile Include="Interfaces\IEditableExpenseProperties.cs" />
     <Compile Include="Services\AddingExpenseService.cs" />
     <Compile Include="Authentication.cs" />
@@ -62,7 +63,6 @@
     <Compile Include="Services\ExpensesStatisticsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Searcher.cs" />
-    <Compile Include="Services\InitialDataService.cs" />
     <Compile Include="Services\UnitsService.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="DbDataReadPermission.cs" />

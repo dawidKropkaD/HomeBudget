@@ -34,17 +34,7 @@ namespace HomeBudget.Controllers
                 return View(vm);
             }
 
-            AddingExpenseService service = new AddingExpenseService();
-            service.Add(new Expenses
-            {
-                UserId = UserId,
-                CategoryId = vm.SelectedCategoryId,
-                UnitId = vm.SelectedUnitId,
-                Name = vm.ProductName,
-                TotalPrice = (decimal)vm.Price,
-                Quantity = vm.Quantity,
-                Date = vm.Date
-            });
+            new AddingExpenseService().Add(vm, UserId);
 
             Response.Cookies.Append("DateOfAddingExpense", vm.Date.ToString(), new CookieOptions() { Expires = DateTime.Now.AddDays(7) });
             TempData["SuccessMessage"] = "Wydatek został dodany";
@@ -73,7 +63,7 @@ namespace HomeBudget.Controllers
         {
             if (!ModelState.IsValid)
             {
-                vm.Init(UserId);
+                vm.InitConstantData(UserId);
 
                 return View();
             }
