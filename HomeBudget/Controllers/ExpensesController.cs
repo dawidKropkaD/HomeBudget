@@ -101,6 +101,22 @@ namespace HomeBudget.Controllers
         }
 
 
+        public IActionResult List(int page = 1)
+        {
+            if (page < 1)
+                page = 1;
+
+            int pageSize = 20;
+
+            ExpensesService service = new ExpensesService(UserId);
+            var listData = service.GetForList(page, pageSize);
+
+            ListViewModel vm = new ListViewModel(listData.expenses, listData.totalExpensesNumber, page, pageSize);
+
+            return View(vm);
+        }
+
+
         public JsonResult GetProductNames(string term)
         {
             Searcher searcher = new Searcher(term, 20);

@@ -1,0 +1,55 @@
+﻿@model HomeBudget.ViewModels.Expenses.ListViewModel
+@{
+    ViewData["Title"] = "List";
+}
+
+<h2>Moje wydatki</h2>
+<hr />
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Data</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Kategoria</th>
+            <th scope="col">Ilość</th>
+            <th scope="col">Cena</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Expenses.Count(); i++)
+        {
+            <tr>
+                <th scope="row">@((i + 1) + Model.PageSize * (Model.Page - 1))</th>
+                <td>@Model.Expenses[i].Date</td>
+                <td>@Model.Expenses[i].Name</td>
+                <td>@Model.Expenses[i].CategoryName</td>
+                <td>@Model.Expenses[i].Quantity @Model.Expenses[i].UnitName</td>
+                <td>@Model.Expenses[i].TotalPrice zł</td>                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="pagination"></div>
+
+
+@section Styles{
+    <link type="text/css" rel="stylesheet" href="~/lib/simplePagination/simplePagination.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/simplePagination/jquery.simplePagination.js"></script>
+
+    <script>
+        $('#pagination').pagination({
+            items: @Model.TotalExpensesNumber,
+            itemsOnPage: @Model.PageSize,
+            currentPage: @Model.Page,
+            onPageClick: function (pageNumber) {
+                window.location.href = "/Expenses/List?page=" + pageNumber;
+            }
+        });
+    </script>
+}

@@ -13,8 +13,8 @@ namespace HomeBudget.ViewModels.Shared
 
         public DateRangeViewModel()
         {
-            _start = DateTime.Now.AddMonths(-1);
-            _end= DateTime.Now;
+            _start = DateTime.Now.Date.AddMonths(-1);
+            _end= DateTime.Now.Date;
 
             minDate = new DateTime(1799, 1, 1);
         }

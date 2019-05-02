@@ -26,4 +26,8 @@
     <ProjectReference Include="..\HomeBudget.BusinessLogic\HomeBudget.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\simplePagination\" />
+  </ItemGroup>
+
 </Project>
