@@ -15,6 +15,7 @@
             <th scope="col">Kategoria</th>
             <th scope="col">Ilość</th>
             <th scope="col">Cena</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,7 +27,12 @@
                 <td>@Model.Expenses[i].Name</td>
                 <td>@Model.Expenses[i].CategoryName</td>
                 <td>@Model.Expenses[i].Quantity @Model.Expenses[i].UnitName</td>
-                <td>@Model.Expenses[i].TotalPrice zł</td>                
+                <td>@Model.Expenses[i].TotalPrice zł</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Expenses" asp-route-id="@Model.Expenses[i].Id">Edytuj</a>
+                    |   
+                    <a asp-action="Details" asp-controller="Expenses" asp-route-id="@Model.Expenses[i].Id">Szczegóły</a>
+                </td>
             </tr>
         }
     </tbody>

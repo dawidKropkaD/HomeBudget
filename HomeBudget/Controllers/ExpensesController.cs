@@ -65,7 +65,7 @@ namespace HomeBudget.Controllers
             {
                 vm.InitConstantData(UserId);
 
-                return View();
+                return View(vm);
             }
 
             new ExpenseService(vm.Id, UserId).Edit(vm);
