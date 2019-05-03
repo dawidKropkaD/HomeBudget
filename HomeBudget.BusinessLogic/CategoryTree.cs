@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace HomeBudget.BusinessLogic
 {
-#warning czy czasem nie lepiej jeśli zamiast tej klasy w klasie CategoryTreeNode byłaby metoda BuildTree?
     public class CategoryTree
     {
         List<Categories> allCategories;
