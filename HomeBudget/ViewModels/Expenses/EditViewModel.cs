@@ -23,6 +23,7 @@ namespace HomeBudget.ViewModels.Expenses
         public EditViewModel(DataAccess.Models.Expenses expenseDto)
         {
             Id = expenseDto.Id;
+            Date = expenseDto.Date;
             Name = expenseDto.Name;
             CategoryId = expenseDto.CategoryId;
             TotalPrice = expenseDto.TotalPrice;
@@ -34,6 +35,8 @@ namespace HomeBudget.ViewModels.Expenses
 
 
         public int Id { get; set; }
+
+        public DateTime Date { get; set; }
 
         [StringLength(50)]
         [Display(Name = "Nazwa produktu")]

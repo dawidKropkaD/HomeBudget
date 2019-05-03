@@ -73,12 +73,12 @@
                     @item.AddedDate
                     <span class="font-weight-bold">@item.Name</span>
                     @item.Quantity @item.TotalPrice
+                    <a asp-controller="Expenses" asp-action="Edit" asp-route-id="@item.Id" title="Edytuj" style="text-decoration:none">&#9998;</a>
                 </p>
             }
         </div>
     </div>
 </div>
-
 
 
 @section Styles{
@@ -127,7 +127,7 @@
                 success: function (data) {
                     if (data.success) {
                         $("#SelectedCategoryId").val(data.categoryId);
-                        $('#SelectedCategoryId').selectpicker('refresh');                        
+                        $('#SelectedCategoryId').selectpicker('refresh');
                         $('#Price').val(data.price)
                         $('#Quantity').val(data.quantity)
                         $("#SelectedUnitId").val(data.unitId);

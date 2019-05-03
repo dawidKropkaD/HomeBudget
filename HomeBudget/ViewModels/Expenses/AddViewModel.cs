@@ -93,6 +93,7 @@ namespace HomeBudget.ViewModels.Expenses
 
             public LastAddedExpense(DataAccess.Models.Expenses expense)
             {
+                Id = expense.Id;
                 Name = expense.Name ?? expense.Category.Name;
                 TotalPrice = expense.TotalPrice.ToString() + " zł";
                 AddedDate = expense.Date.ToShortDateString();
@@ -104,6 +105,7 @@ namespace HomeBudget.ViewModels.Expenses
                 
             }
 
+            public int Id { get; set; }
             public string Name { get; set; }
             public string TotalPrice { get; set; }
             public string AddedDate { get; set; }

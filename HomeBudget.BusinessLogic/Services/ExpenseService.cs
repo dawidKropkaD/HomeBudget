@@ -27,6 +27,7 @@ namespace HomeBudget.BusinessLogic.Services
 
         public void Edit(IEditableExpenseProperties newValues)
         {
+            Expense.Date = newValues.Date;
             Expense.Name = newValues.Name;
             Expense.CategoryId = newValues.CategoryId;
             Expense.TotalPrice = newValues.TotalPrice;

@@ -8,6 +8,7 @@ namespace HomeBudget.BusinessLogic.Interfaces
 {
     public interface IEditableExpenseProperties
     {
+        DateTime Date { get; set; }
         string Name { get; set; }
         int CategoryId { get; set; }
         decimal TotalPrice { get; set; }

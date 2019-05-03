@@ -11,7 +11,15 @@
 </div>
 
 <hr />
-<h5>Koszt wszystkich wydatków: @Model.ExpensesCost zł</h5>
+@if (Model.PieCharts.Count() == 0)
+{
+    <h5>Nie znaleziono wydatków w wybranym okresie.</h5>
+}
+else
+{
+    <h5>Koszt wszystkich wydatków: @Model.ExpensesCost zł</h5>
+}
+
 <br />
 
 @Html.Partial("_PieCharts", Model.PieCharts)
