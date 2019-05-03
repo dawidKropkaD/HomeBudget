@@ -18,7 +18,7 @@ namespace HomeBudget.BusinessLogic.Services
         {
             this.userId = userId;
             context = new HomeBudgetContext();
-            Expense = context.Expenses.Include("Category").Include("Unit").FirstOrDefault(x => x.Id == expenseId && x.UserId == userId);
+            Expense = context.Expenses.Include(x => x.Category).Include(x => x.Unit).FirstOrDefault(x => x.Id == expenseId && x.UserId == userId);
         }
 
 

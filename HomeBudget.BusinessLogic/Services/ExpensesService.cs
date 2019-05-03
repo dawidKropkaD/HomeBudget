@@ -23,8 +23,8 @@ namespace HomeBudget.BusinessLogic.Services
         public (List<Expenses> expenses, int totalExpensesNumber) GetForList(int page, int pageSize)
         {
             var expenses = context.Expenses
-                .Include("Category")
-                .Include("Unit")
+                .Include(x => x.Category)
+                .Include(x => x.Unit)
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.Date)
                 .Skip((page - 1) * pageSize)
@@ -40,8 +40,8 @@ namespace HomeBudget.BusinessLogic.Services
         public List<Expenses> GetLastAdded(int number)
         {
             return context.Expenses
-                .Include("Unit")
-                .Include("Category")
+                .Include(x => x.Unit)
+                .Include(x => x.Category)
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.Id)
                 .Take(number)
